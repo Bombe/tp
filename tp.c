@@ -13,8 +13,8 @@ uint64_t getTimeDifference(struct timeval* firstTimestamp, struct timeval* secon
 
 double getFormattedNumber(double number) {
 	double currentNumber = number;
-	while (currentNumber >= 1000) {
-		currentNumber /= 1000;
+	while (currentNumber >= 1024) {
+		currentNumber /= 1024;
 	}
 	return currentNumber;
 }
@@ -23,8 +23,8 @@ char* getFormattedUnit(double number) {
 	static char* units[] = {"B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB"};
 	int unit = 0;
 	double currentNumber = number;
-	while (currentNumber >= 1000) {
-		currentNumber /= 1000;
+	while (currentNumber >= 1024) {
+		currentNumber /= 1024;
 		++unit;
 	}
 	return units[unit];

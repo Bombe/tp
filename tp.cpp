@@ -9,6 +9,12 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <vector>
+#include <string>
+
+#include "Formatter.hpp"
+
+using namespace std;
 
 /**
  * \brief Returns the time difference between two timestamps.
@@ -21,45 +27,6 @@
  */
 uint64_t getTimeDifference(struct timeval* firstTimestamp, struct timeval* secondTimestamp) {
 	return (secondTimestamp->tv_sec * 1000000 + secondTimestamp->tv_usec) - (firstTimestamp->tv_sec * 1000000 + firstTimestamp->tv_usec);
-}
-
-/**
- * \brief Reduces the given number until it is smaller than 1024.
- *
- * The number is divided by 1024 until it is smaller than 1024. This is used in
- * conjunction with #getFormattedUnit(double) to create a formatted value like
- * “145.2 KiB" for a number like 145217.
- *
- * \param number The number to format \return The formatted number, smaller
- * than 1000
- */
-double getFormattedNumber(double number) {
-	double currentNumber = number;
-	while (currentNumber >= 1024) {
-		currentNumber /= 1024;
-	}
-	return currentNumber;
-}
-
-/**
- * \brief Returns the unit for the formatted number.
- *
- * This method should be used in conjunction with getFormattedNumber(double).
- * It returns the number of reductions that have been performed on a number,
- * converted as units of bytes (KiB, MiB, etc.).
- *
- * \param number The number to get the unit for
- * \return The unit for the formatted number
- */
-char* getFormattedUnit(double number) {
-	static char* units[] = {"B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB"};
-	int unit = 0;
-	double currentNumber = number;
-	while (currentNumber >= 1024) {
-		currentNumber /= 1024;
-		++unit;
-	}
-	return units[unit];
 }
 
 /**
@@ -82,6 +49,8 @@ int main(int argc, char** argv) {
 	struct timeval startTimestamp, lastTimestamp, timestamp;
 	uint64_t sinceStart, sinceLast;
 	double throughput;
+	string units[] = { "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB" };
+	Formatter formatter(vector<string>(units, units + sizeof(units) / sizeof(string)));
 
 	/* allocate buffer. */
 	buffer = malloc(bufferSize); /* TODO - check for error. */
@@ -103,7 +72,7 @@ int main(int argc, char** argv) {
 		if (sinceLast > 500000) {
 			sinceStart = getTimeDifference(&startTimestamp, &timestamp);
 			throughput = (movedTotal / (sinceStart / 1000000.0));
-			fprintf(stderr, "%llu bytes total, %llu seconds, %.1f %s/s%c[K\r", movedTotal, sinceStart / 1000000, getFormattedNumber(throughput), getFormattedUnit(throughput), 27);
+			fprintf(stderr, "%llu bytes total, %llu seconds, %s/s%c[K\r", movedTotal, sinceStart / 1000000, formatter.format("%.1f %s", throughput), 27);
 			lastTimestamp = timestamp;
 			movedLast = 0;
 		}

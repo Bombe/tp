@@ -1,2 +1,6 @@
 # target
 tp
+
+# doxygen directories
+html/
+latex/

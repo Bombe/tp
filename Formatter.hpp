@@ -22,6 +22,7 @@ public:
 private:
 	std::vector<std::string> units;
 	char* outputBuffer;
+
 };
 
 #endif

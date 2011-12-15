@@ -26,6 +26,7 @@ private:
 	FILE* output;
 	uint64_t copied;
 	std::vector<CopierListener*> copierListeners;
+
 };
 
 #endif

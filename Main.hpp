@@ -22,6 +22,7 @@ private:
 	struct timeval startTime;
 	struct timeval lastTime;
 	Formatter* formatter;
+
 };
 
 #endif

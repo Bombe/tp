@@ -1,6 +1,6 @@
 
 DEST = tp
-OBJS = tp.o Formatter.o
+OBJS = Formatter.o Copier.o CopierListener.o Main.o
 
 CC = g++
 CC_OPTS=-Wall -g
@@ -10,7 +10,10 @@ CC_OPTS=-Wall -g
 
 all: $(DEST)
 
-tp.o: tp.cpp Formatter.hpp
+Formatter.o: Formatter.hpp
+CopierListener.o: CopierListener.cpp Copier.hpp
+Copier.o: Copier.cpp CopierListener.hpp
+Main.o: Main.cpp Copier.hpp CopierListener.hpp Formatter.hpp
 
 $(DEST): $(OBJS)
 	$(CC) -o $@ $^

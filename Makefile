@@ -1,6 +1,7 @@
 
 DEST = tp
 OBJS = Formatter.o Copier.o CopierListener.o Main.o
+DOXYGEN_DIRS = html latex
 
 CC = g++
 CC_OPTS=-Wall -g
@@ -21,3 +22,4 @@ $(DEST): $(OBJS)
 clean:
 	rm -f $(DEST)
 	rm -f $(OBJS)
+	rm -rf $(DOXYGEN_DIRS)

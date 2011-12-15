@@ -11,18 +11,16 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-
 class Formatter {
 
 public:
-	Formatter(std::vector<string> units);
+	Formatter(std::vector<std::string> units);
 	~Formatter();
 
 	char* format(const char* format, double number);
 
 private:
-	vector<string> units;
+	std::vector<std::string> units;
 	char* outputBuffer;
 };
 

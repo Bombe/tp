@@ -1,7 +1,7 @@
 
 #include "Formatter.hpp"
 
-Formatter::Formatter(vector<string> units) {
+Formatter::Formatter(std::vector<std::string> units) {
 	this->outputBuffer = (char*) malloc(128);
 	if (!this->outputBuffer) {
 		/* TODO - signal error. */

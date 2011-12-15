@@ -19,10 +19,10 @@ uint64_t getTimeDifference(struct timeval* firstTimestamp, struct timeval* secon
 }
 
 Main::Main(int argc, char** argv): CopierListener() {
-	string units[] = { "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB" };
+	std::string units[] = { "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB" };
 	gettimeofday(&this->startTime, NULL);
 	gettimeofday(&this->lastTime, NULL);
-	this->formatter = new Formatter(std::vector<std::string>(units, units + sizeof(units) / sizeof(string)));
+	this->formatter = new Formatter(std::vector<std::string>(units, units + sizeof(units) / sizeof(std::string)));
 }
 
 Main::~Main() {
